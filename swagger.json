@@ -1,0 +1,639 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "CNC API Documentation",
+      "description": "API documentation for CNC application",
+      "contact": {
+        "email": "admin@example.com"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://autostore.link/api",
+        "description": "API Server"
+      }
+    ],
+    "paths": {
+      "/v2/user/types/index": {
+        "get": {
+          "tags": [
+            "API Key"
+          ],
+          "summary": "Get API key types",
+          "description": "Retrieve all available types that can be used with API keys",
+          "operationId": "bde111870d9cb74f0de94ac58ce07db4",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "enable": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API key is required in the headers"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Type not found or disabled"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      },
+      "/v2/user/{type_id}/models/index": {
+        "get": {
+          "tags": [
+            "API Key"
+          ],
+          "summary": "Get models by type ID",
+          "description": "Retrieve all models associated with a specific type ID",
+          "operationId": "fc9a5bab99bf261341c97c98e42a4b64",
+          "parameters": [
+            {
+              "name": "type_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "type_id": {
+                          "type": "string"
+                        },
+                        "enable": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API key is required in the headers"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Model not found or disabled"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      },
+      "/v2/user/{model_id}/submodels/index": {
+        "get": {
+          "tags": [
+            "API Key"
+          ],
+          "summary": "Get submodel by type ID",
+          "description": "Retrieve all submodel associated with a specific type ID",
+          "operationId": "88bda48b4e38be371787d66d7d9f4c8b",
+          "parameters": [
+            {
+              "name": "model_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "submodel_id": {
+                          "type": "string"
+                        },
+                        "enable": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API key is required in the headers"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Model not found or disabled"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      },
+      "/v2/user/{submodel_id}/modelYears/index": {
+        "get": {
+          "tags": [
+            "API Key"
+          ],
+          "summary": "Get model years by submodel ID",
+          "description": "Retrieve all model years associated with a specific submodel ID",
+          "operationId": "49d21cd5c1bdd983f20fb6268466455b",
+          "parameters": [
+            {
+              "name": "submodel_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "year": {
+                          "type": "string"
+                        },
+                        "submodel_id": {
+                          "type": "string"
+                        },
+                        "enable": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API key is required in the headers"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Model year not found or disabled"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      },
+      "/v2/user/{model_year_id}/versions/index": {
+        "get": {
+          "tags": [
+            "API Key"
+          ],
+          "summary": "Get versions by model year ID",
+          "description": "Retrieve all versions associated with a specific model year ID",
+          "operationId": "87bf0d67768f15e43dea69dcea588a13",
+          "parameters": [
+            {
+              "name": "model_year_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "model_year_id": {
+                          "type": "string"
+                        },
+                        "enable": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API key is required in the headers"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Version not found or disabled"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      },
+      "/v2/user/{model_year_id}/parts/index": {
+        "get": {
+          "tags": [
+            "API Key"
+          ],
+          "summary": "Get parts by model year and version ID",
+          "description": "Retrieve all parts associated with a specific model year ID and version ID.",
+          "operationId": "b356f784fb7e099576088211dd662e95",
+          "parameters": [
+            {
+              "name": "model_year_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "version_id",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "685487189587f88f4f0a6a7b"
+                        },
+                        "height": {
+                          "type": "string",
+                          "example": "10"
+                        },
+                        "width": {
+                          "type": "string",
+                          "example": "10"
+                        },
+                        "image": {
+                          "type": "string",
+                          "format": "url",
+                          "example": "https://autostore-cnc.s3.eu-west-2.amazonaws.com/images/20250620005429.jpg?..."
+                        },
+                        "points": {
+                          "type": "number",
+                          "format": "float",
+                          "example": 0.1
+                        }
+                      },
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API key is required in the headers"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Parts not found or disabled"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      },
+      "/v2/search/{search}": {
+        "post": {
+          "tags": [
+            "API Key"
+          ],
+          "summary": "Search by API key",
+          "description": "Search for models, types, subtypes, and model years using a search query",
+          "operationId": "61040b18a8d7f626891f2aa096e0a21a",
+          "parameters": [
+            {
+              "name": "search",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "api_key": {
+          "type": "apiKey",
+          "description": "Enter your API key in the format: Bearer \u003Capi_key\u003E",
+          "name": "X-API-KEY",
+          "in": "header"
+        }
+      }
+    },
+    "tags": [
+      {
+        "name": "API Key",
+        "description": "API endpoints for managing API keys and related resources"
+      }
+    ],
+    "security": [
+      {
+        "api_key": []
+      }
+    ]
+  }
