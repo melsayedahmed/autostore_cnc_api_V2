@@ -1,4 +1,6 @@
 "use client";
+import Image from "next/image"; // ✅ بتاع Next.js مش الـ DOM
+
 
 import React, { useCallback, memo } from "react";
 import dynamic from "next/dynamic";
@@ -63,6 +65,17 @@ export default function SubmodelsPage({
           ← Back to Models
         </Link>
 
+        <div className="flex items-center justify-center mb-4 md:hidden">
+          <Link href="/about" className="block">
+            <Image
+              src="/images/nav.webp"
+              alt="Logo"
+              width={150}
+              height={40}
+              priority
+            />
+          </Link>
+        </div>
         <h1 className="text-3xl font-bold mb-8 text-black dark:text-white">
           Submodels
         </h1>

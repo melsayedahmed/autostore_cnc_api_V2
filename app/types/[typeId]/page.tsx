@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useModels, fetchModels } from "../../../hooks/useModels";
+import Image from "next/image"; // ✅ لازم تستورده
 
 // ✅ Dynamic Import لـ ModelsList مع Skeleton Loader
 const ModelsList = dynamic(
@@ -83,7 +84,21 @@ export default function ModelsPage() {
           ← Back to Types
         </Link>
 
-        <h1 className="text-3xl font-bold mb-8 text-black dark:text-white">
+        {/* ✅ Logo يظهر في الموبايل فقط (شمال خالص) */}
+        <div className="flex items-center justify-center mb-4 md:hidden mt" >
+          <Link href="/about" className="block">
+            <Image
+              src="/images/nav.webp" 
+              alt="Logo"
+              width={150}
+              height={40}
+              priority
+            />
+          </Link>
+        </div>
+
+        {/* العنوان */}
+        <h1 className="text-3xl font-bold mb-8 text-black dark:text-white text-center md:text-left">
           Models
         </h1>
 
