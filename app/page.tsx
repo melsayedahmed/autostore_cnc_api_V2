@@ -83,7 +83,7 @@ export default function HomePageClient() {
           viewport={{ once: false, amount: 0.2 }}
           className="text-3xl font-bold mb-8 text-black dark:text-white text-center md:text-left"
         >
-          Autostore provides innovative, reusable, and insulated window tint products, available through branches and franchise opportunities, expanding our presence across Egypt and beyond
+          Autostore Removable Window tint (Creative Tint)
         </motion.h1>
 
         {/* TypesList */}
