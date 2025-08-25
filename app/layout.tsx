@@ -67,20 +67,20 @@ const SearchBar = memo(() => {
   }, []);
 
   return (
-    <div className="relative flex justify-end w-full md:w-72 lg:w-96 px-9 mx-2">
+    <div className="relative flex justify-end w-full md:w-72 lg:w-96 px-2 mx-2">
       <input
         type="text"
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
         placeholder="Search..."
-        className="w-[180%] sm:w-96 px-5 py-3 rounded-lg border border-gray-300 
+        className="w-full px-4 py-2 rounded-lg border border-gray-300 
              focus:outline-none focus:ring-2 focus:ring-blue-500 
-             text-lg sm:text-sm bg-slate-800 text-white placeholder-gray-400"
+             text-sm bg-slate-800 text-white placeholder-gray-400"
         onFocus={() => query && setShowDropdown(true)}
         onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
       />
       {showDropdown && results.length > 0 && (
-        <div className="absolute left-0 right-0 mt- rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto bg-slate-800 text-white border border-gray-700">
+        <div className="absolute left-0 right-0 mt-9 rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto bg-slate-800 text-white border border-gray-700">
           {results.map((item, idx) => (
             <div
               key={item.id || idx}
@@ -108,15 +108,43 @@ const SearchBar = memo(() => {
 });
 SearchBar.displayName = "SearchBar";
 
-// ✅ Header with Search
+// ✅ Modal Component
+const Modal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+      <div className="bg-slate-900 p-6 rounded-2xl shadow-lg w-11/12 max-w-md">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold">Search</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-white text-xl"
+          >
+            ✕
+          </button>
+        </div>
+        <SearchBar />
+      </div>
+    </div>
+  );
+};
+
+// ✅ Header with Search (Desktop Only)
 const Header = memo(() => {
   return (
-    <header className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-6">
+    <header className="hidden md:block fixed top-6 left-1/2 transform -translate-x-1/2 z-40 w-full max-w-6xl px-6">
       <nav className="rounded-2xl px-6 py-4 shadow-2xl transition-all duration-700 bg-white/10 backdrop-blur-2xl border-white/20">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <Link href="/about" className="block">
+            <Link href="/" className="block">
               <Image
                 src="/images/nav.webp"
                 alt="Logo"
@@ -128,27 +156,26 @@ const Header = memo(() => {
             </Link>
           </div>
 
-          {/* Navigation + Search */}
-          <div className="flex flex-row items-center justify-center space-x-4">
-            <SearchBar />
-
-            {/* Nav Links */}
-            {/* <nav className="flex space-x-4 md:space-x-6"> */}
-              {/* <Link
-                href="/about"
-                className="relative group transition-all duration-300 text-gray-300 hover:text-white"
-              >
-                Models
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 group-hover:w-full transition-all duration-300"></span>
-              </Link> */}
-            {/* </nav> */}
-          </div>
+          {/* SearchBar for Desktop */}
+          <SearchBar />
         </div>
       </nav>
     </header>
   );
 });
 Header.displayName = "Header";
+
+// ✅ Mobile Floating Button
+const MobileSearchButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="md:hidden fixed bottom-8 right-6 translate-x-1/4 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-xl z-50 text-3xl"
+    >
+      🔍
+    </button>
+  );
+};
 
 // ✅ RootLayout (Dark Mode فقط)
 export default function RootLayout({
@@ -157,13 +184,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [queryClient] = useState(() => new QueryClient());
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <html lang="en" className="dark">
       <body className="bg-slate-900 text-white transition-colors duration-300">
         <QueryClientProvider client={queryClient}>
           <ThemeContext.Provider value={{ isDarkMode: true }}>
+            {/* Desktop Header */}
             <Header />
+
+            {/* Mobile Floating Button */}
+            <MobileSearchButton onClick={() => setIsModalOpen(true)} />
+
+            {/* Modal for Search */}
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
             {children}
           </ThemeContext.Provider>
         </QueryClientProvider>

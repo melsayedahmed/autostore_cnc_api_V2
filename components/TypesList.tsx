@@ -1,12 +1,12 @@
 "use client";
 
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import type { Type } from "../lib/types";
 import { PaginationLink } from "../hooks/useTypes";
 import Pagination from "./ui/pagination";
 
-// ✅ Skeleton Loader Component
+// ✅ Skeleton Loader
 const TypeCardSkeleton = memo(() => (
   <div
     className="flex flex-col items-center justify-center 
@@ -20,7 +20,7 @@ const TypeCardSkeleton = memo(() => (
 ));
 TypeCardSkeleton.displayName = "TypeCardSkeleton";
 
-// ✅ Individual Type Card Component (Memoized)
+// ✅ Card
 const TypeCard = memo(
   ({ type, onSelect }: { type: Type; onSelect: (type: Type) => void }) => {
     const handleClick = useCallback(() => onSelect(type), [onSelect, type]);
@@ -42,10 +42,9 @@ const TypeCard = memo(
             <Image
               src={type.image}
               alt={type.name}
-              layout="fill"
-              objectFit="contain"
+              fill
+              style={{ objectFit: "contain" }}
               className="rounded"
-              priority={false}
               onError={(e) => {
                 (e.currentTarget as any).style.display = "none";
               }}
@@ -68,13 +67,12 @@ const TypeCard = memo(
 );
 TypeCard.displayName = "TypeCard";
 
-// ✅ Main List Component (Memoized)
+// ✅ List
 interface TypesListProps {
   types: Type[];
   links: PaginationLink[];
   onSelect: (type: Type) => void;
   onPageChange: (page: number) => void;
-  searchTerm?: string; // ✅ Added for search
   renderItem?: (type: Type, children: React.ReactNode) => React.ReactNode;
   isLoading?: boolean;
 }
@@ -84,13 +82,13 @@ const TypesListComponent: React.FC<TypesListProps> = ({
   links,
   onSelect,
   onPageChange,
-  searchTerm = "",
   renderItem,
   isLoading = false,
 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const handleSelect = useCallback((type: Type) => onSelect(type), [onSelect]);
 
-  // ✅ فلترة باستخدام useMemo للأداء
+  // ✅ فلترة
   const filteredTypes = useMemo(() => {
     if (!searchTerm) return types;
     const lowerSearch = searchTerm.toLowerCase();
@@ -111,23 +109,37 @@ const TypesListComponent: React.FC<TypesListProps> = ({
     );
   }
 
-  if (!filteredTypes?.length) {
-    return <div className="text-center text-gray-500">No types found.</div>;
-  }
-
   return (
     <>
-      <div className="w-full rounded-2xl p-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {filteredTypes.map((type) => {
-            const card = (
-              <TypeCard key={type.id} type={type} onSelect={handleSelect} />
-            );
-            return renderItem ? renderItem(type, card) : card;
-          })}
-        </div>
+      {/* ✅ Search Input */}
+      <div className="w-full p-4 md:hidden">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 mb-6 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-black dark:text-white"
+        />
       </div>
-      <Pagination links={links} onPageChange={onPageChange} />
+
+      {/* ✅ Results */}
+      {filteredTypes.length === 0 ? (
+        <div className="text-center text-gray-500">No products found.</div>
+      ) : (
+        <>
+          <div className="w-full rounded-2xl p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {filteredTypes.map((type) => {
+                const card = (
+                  <TypeCard key={type.id} type={type} onSelect={handleSelect} />
+                );
+                return renderItem ? renderItem(type, card) : card;
+              })}
+            </div>
+          </div>
+          <Pagination links={links} onPageChange={onPageChange} />
+        </>
+      )}
     </>
   );
 };

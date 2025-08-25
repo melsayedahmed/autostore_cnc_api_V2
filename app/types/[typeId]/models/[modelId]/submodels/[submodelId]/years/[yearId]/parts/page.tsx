@@ -69,15 +69,8 @@ export default function PartsPage() {
   return (
     <div className="min-h-screen text-black dark:text-white bg-gradient-to-b from-[#e5f1fc] to-[#f2f4ff] dark:bg-[radial-gradient(ellipse_at_center,_rgb(16,13,33)_0%,_#0b0a1a_100%)]">
       <main className="max-w-7xl mx-auto p-8 pt-20">
-        <button
-          onClick={handleBack}
-          className="text-blue-500 hover:underline mb-6 mt-14 inline-block"
-        >
-          ← Back to Model Year
-        </button>
-
-        <div className="flex items-center justify-center mb-4 md:hidden mt-2">
-          <Link href="/about" className="block">
+        <div className="flex items-center justify-center mb-4 md:hidden   -mt-6">
+          <Link href="/" className="block">
             <Image
               src="/images/nav.webp"
               alt="Logo"
@@ -86,12 +79,16 @@ export default function PartsPage() {
               priority
             />
           </Link>
-          
         </div>
-        <h1 className="text-3xl font-bold mb-8 text-black dark:text-white">
+        <h1 className="text-3xl font-bold mb-3 text-black   dark:text-white mt-8">
           Parts
         </h1>
-
+        <button
+          onClick={handleBack}
+          className="text-blue-500 hover:underline mb-6 mt inline-block"
+        >
+          ← Back to Model Year
+        </button>
         {isLoading ? (
           // ✅ Skeleton Loader
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">

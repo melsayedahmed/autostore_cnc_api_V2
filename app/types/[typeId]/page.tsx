@@ -77,18 +77,10 @@ export default function ModelsPage() {
   return (
     <div className="min-h-screen text-black dark:text-white bg-gradient-to-b from-[#e5f1fc] to-[#f2f4ff] dark:bg-[radial-gradient(ellipse_at_center,_rgb(16,13,33)_0%,_#0b0a1a_100%)]">
       <main className="max-w-7xl mx-auto p-8 pt-20">
-        <Link
-          href="/"
-          className="text-blue-500 hover:underline mb-6 mt-8 inline-block"
-        >
-          ← Back to Types
-        </Link>
-
-        {/* ✅ Logo يظهر في الموبايل فقط (شمال خالص) */}
-        <div className="flex items-center justify-center mb-4 md:hidden mt" >
-          <Link href="/about" className="block">
+        <div className="flex items-center justify-center  md:hidden   mb-9 -mt-7 ">
+          <Link href="/" className="block">
             <Image
-              src="/images/nav.webp" 
+              src="/images/nav.webp"
               alt="Logo"
               width={150}
               height={40}
@@ -98,10 +90,15 @@ export default function ModelsPage() {
         </div>
 
         {/* العنوان */}
-        <h1 className="text-3xl font-bold mb-8 text-black dark:text-white text-center md:text-left">
+        <h1 className="text-3xl font-bold  text-black dark:text-white text-left mt-8 md:text-left">
           Models
         </h1>
-
+        <Link
+          href="/"
+          className="text-blue-500 hover:underline mb-6 mt-4 inline-block"
+        >
+          ← Back to Types
+        </Link>
         {/* ✅ Skeleton هيظهر تلقائي وقت الـ Dynamic Loading */}
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">

@@ -63,10 +63,8 @@ export default function HomePageClient() {
   return (
     <main className="min-h-screen pt-20 bg-gradient-to-b from-[#e5f1fc] to-[#f2f4ff] dark:bg-[radial-gradient(ellipse_at_center,_rgb(16,13,33)_0%,_#0b0a1a_100%)]">
       <div className="max-w-7xl mx-auto p-8">
-        {/* العنوان */}
-        {/* Logo في الموبايل فوق العنوان */}
-        <div className="flex items-center justify-center mb-4 md:hidden mt-5">
-          <Link href="/about" className="block">
+        <div className="flex items-center justify-center mb-4 md:hidden  -mt-14 ">
+          <Link href="/" className="block">
             <Image
               src="/images/nav.webp"
               alt="Logo"

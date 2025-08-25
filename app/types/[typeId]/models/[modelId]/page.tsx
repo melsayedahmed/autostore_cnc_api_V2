@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image"; // ✅ بتاع Next.js مش الـ DOM
 
-
 import React, { useCallback, memo } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -58,15 +57,8 @@ export default function SubmodelsPage({
   return (
     <div className="min-h-screen text-black dark:text-white bg-gradient-to-b from-[#e5f1fc] to-[#f2f4ff] dark:bg-[radial-gradient(ellipse_at_center,_rgb(16,13,33)_0%,_#0b0a1a_100%)]">
       <main className="max-w-7xl mx-auto p-8 pt-20">
-        <Link
-          href={`/types/${typeId}`}
-          className="text-blue-500 hover:underline mb-6 inline-block mt-8"
-        >
-          ← Back to Models
-        </Link>
-
-        <div className="flex items-center justify-center mb-4 md:hidden">
-          <Link href="/about" className="block">
+        <div className="flex items-center justify-center mb-4 md:hidden -mt-6">
+          <Link href="/" className="block">
             <Image
               src="/images/nav.webp"
               alt="Logo"
@@ -76,9 +68,15 @@ export default function SubmodelsPage({
             />
           </Link>
         </div>
-        <h1 className="text-3xl font-bold mb-8 text-black dark:text-white">
+        <h1 className="text-3xl font-bold mb-3 text-black   dark:text-white mt-8">
           Submodels
         </h1>
+        <Link
+          href={`/types/${typeId}`}
+          className="text-blue-500 hover:underline mb-6 inline-block mt-4"
+        >
+          ← Back to Models
+        </Link>
 
         {/* ✅ Skeleton هيظهر أوتوماتيك من Dynamic Import أثناء تحميل SubmodelsList */}
         <SubmodelsList
