@@ -16,9 +16,9 @@ import { search as searchApi } from "../lib/api";
 import { useRouter } from "next/navigation";
 
 // 🌙 ثابت دايمًا على dark mode
-const ThemeContext = createContext<{
-  isDarkMode: boolean;
-}>({ isDarkMode: true });
+const ThemeContext = createContext<{ isDarkMode: boolean }>({
+  isDarkMode: true,
+});
 
 export const useTheme = () => useContext(ThemeContext);
 
@@ -35,31 +35,49 @@ const SearchBar = memo(() => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
-  const handleSearch = async (value: string) => {
+  const fetchResults = async (value: string, reset = true) => {
+    const nextPage = reset ? 1 : page + 1;
+    try {
+      const res = await searchApi(value, nextPage, 50); // ✅ 50 per_page
+      const flatRes =
+        Array.isArray(res) && Array.isArray(res[0]) ? res[0] : res;
+
+      if (reset) {
+        setResults(flatRes);
+      } else {
+        setResults((prev) => [...prev, ...flatRes]);
+      }
+
+      setPage(nextPage);
+      setHasMore(flatRes.length > 0);
+      setShowDropdown(true);
+    } catch {
+      if (reset) setResults([]);
+      setHasMore(false);
+      setShowDropdown(false);
+    }
+  };
+
+  const handleSearch = (value: string) => {
     setQuery(value);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     if (!value) {
       setResults([]);
+      setPage(1);
+      setHasMore(true);
       setShowDropdown(false);
       return;
     }
 
-    timeoutRef.current = setTimeout(async () => {
-      try {
-        const res = await searchApi(value);
-        const flatRes =
-          Array.isArray(res) && Array.isArray(res[0]) ? res[0] : res;
-        setResults(flatRes);
-        setShowDropdown(true);
-      } catch {
-        setResults([]);
-        setShowDropdown(false);
-      }
-    }, 300);
+    timeoutRef.current = setTimeout(() => {
+      fetchResults(value, true);
+    }, 400);
   };
 
   useEffect(() => {
@@ -92,15 +110,26 @@ const SearchBar = memo(() => {
               }}
             >
               <span className="font-semibold mr-2">
-                [
                 {[item.type, item.subtype, item.submodel, item.year]
                   .filter(Boolean)
                   .join(" - ")}
-                ]
               </span>
               {item.name || `${item.type} ${item.subtype}`}
             </div>
           ))}
+
+          {/* ✅ زرار Load More */}
+          {hasMore && (
+            <button
+              className="w-full py-2 text-center bg-blue-600 hover:bg-blue-700 text-white text-sm"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                fetchResults(query, false);
+              }}
+            >
+              Load More
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -155,7 +184,6 @@ const Header = memo(() => {
               />
             </Link>
           </div>
-
           {/* SearchBar for Desktop */}
           <SearchBar />
         </div>
@@ -177,7 +205,7 @@ const MobileSearchButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-// ✅ RootLayout (Dark Mode فقط)
+// ✅ RootLayout
 export default function RootLayout({
   children,
 }: {

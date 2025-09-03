@@ -115,7 +115,7 @@ const TypesListComponent: React.FC<TypesListProps> = ({
       <div className="w-full p-4 md:hidden">
         <input
           type="text"
-          placeholder="Search Your Car..."
+          placeholder="Search products..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full px-4 py-2 mb-6 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-black dark:text-white"
@@ -124,7 +124,7 @@ const TypesListComponent: React.FC<TypesListProps> = ({
 
       {/* ✅ Results */}
       {filteredTypes.length === 0 ? (
-        <div className="text-center text-gray-500">No Car Found.</div>
+        <div className="text-center text-gray-500">No products found.</div>
       ) : (
         <>
           <div className="w-full rounded-2xl p-4">

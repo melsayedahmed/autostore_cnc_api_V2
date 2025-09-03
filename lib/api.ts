@@ -57,7 +57,14 @@ export const getParts = async (modelYearId: string, versionId?: string): Promise
   return data;
 };
 
-export const search = async (search: string): Promise<SearchResult[]> => {
-  const { data } = await api.post(`/v2/search/${encodeURIComponent(search)}`);
+export const search = async (
+  query: string,
+  page = 1,
+  per_page = 50
+): Promise<SearchResult[]> => {
+  const { data } = await api.post(`/v2/search/${encodeURIComponent(query)}`, {
+    page,
+    per_page,
+  });
   return data;
-}; 
+};
