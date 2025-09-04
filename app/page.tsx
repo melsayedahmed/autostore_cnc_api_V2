@@ -39,6 +39,7 @@ export default function HomePageClient() {
   } = useInfiniteTypes();
 
   const handleSelect = () => {};
+  console.log("Test")
 
   const renderTypeItem = (
     type: Type,
