@@ -23,10 +23,11 @@ import type {
   ModelYear,
   Version,
   Part, 
-  SearchResult
+  SearchResult,
+  PaginationResponse
 } from './types';
 
-export const getTypes = async (page = 1): Promise<any> => {
+export const getTypes = async (page = 1): Promise<PaginationResponse> => {
   const { data } = await api.get('/v2/user/types/index', { params: { page, per_page: 4 } });
   return data;
 };

@@ -4,6 +4,20 @@ export interface Type {
   image?: string;
 }
 
+export interface PaginationLink {
+  url: string | null;
+  label: string;
+  active: boolean;
+}
+
+export interface PaginationResponse {
+  data: Type[];
+  links?: PaginationLink[];
+  current_page?: number;
+  last_page?: number;
+  total?: number;
+}
+
 export interface Model {
   id: string;
   name: string;
@@ -42,7 +56,7 @@ export interface Part {
 
 export interface SearchResult {
   id: string;
-  type: 'type' | 'model' | 'submodel' | 'modelYear' | 'version' | 'part';
+  type: "type" | "model" | "submodel" | "modelYear" | "version" | "part";
   name: string;
   [key: string]: any;
-} 
+}

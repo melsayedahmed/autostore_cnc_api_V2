@@ -1,16 +1,17 @@
 "use client";
-import Image from "next/image"; // ✅ بتاع Next.js مش الـ DOM
+import Image from "next/image";
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useTypes, fetchTypes } from "../hooks/useTypes";
 import type { Type } from "../lib/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useInfiniteTypes } from "@/hooks/useInfiniteTypes";
 
-const TypesList = dynamic(
-  () => import("../components/TypesList").then((m) => m.TypesList),
+const InfiniteTypesList = dynamic(
+  () =>
+    import("../components/InfiniteTypesList").then((m) => m.InfiniteTypesList),
   { ssr: false }
 );
 
@@ -26,19 +27,17 @@ const fadeSlideUp = {
 };
 
 export default function HomePageClient() {
-  const [page, setPage] = useState(1);
-
   const queryClient = useQueryClient();
-  const { types, links, isLoading, isError, refetch } = useTypes(page);
+  const {
+    types,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+  } = useInfiniteTypes();
 
-  React.useEffect(() => {
-    queryClient.prefetchQuery({
-      queryKey: ["types", page],
-      queryFn: () => fetchTypes(page),
-    });
-  }, [page, queryClient]);
-
-  const handlePageChange = (newPage: number) => setPage(newPage);
   const handleSelect = () => {};
 
   const renderTypeItem = (
@@ -52,7 +51,7 @@ export default function HomePageClient() {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, amount: 0.2 }}
-      transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }} // Delay لكل عنصر
+      transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
     >
       <Link href={`/types/${type.id}`} prefetch>
         <div className="block h-full w-full">{children}</div>
@@ -86,14 +85,15 @@ export default function HomePageClient() {
           Browse Vehicle Parts
         </motion.h1>
 
-        {/* TypesList */}
+        {/* InfiniteTypesList */}
         {!isLoading && !isError && (
           <div>
-            <TypesList
+            <InfiniteTypesList
               types={types}
-              links={links}
               onSelect={handleSelect}
-              onPageChange={handlePageChange}
+              onLoadMore={fetchNextPage}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
               renderItem={(type, children, index) =>
                 renderTypeItem(type, index, children)
               }
@@ -118,6 +118,20 @@ export default function HomePageClient() {
                 <div className="h-4 w-3/4 bg-gray-300 dark:bg-gray-700 rounded"></div>
               </div>
             ))}
+          </div>
+        )}
+
+        {isError && (
+          <div className="text-center py-8">
+            <p className="text-red-600 dark:text-red-400 mb-4">
+              Failed to load vehicle parts. Please try again.
+            </p>
+            <button
+              onClick={() => refetch()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Retry
+            </button>
           </div>
         )}
       </div>
