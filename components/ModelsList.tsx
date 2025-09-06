@@ -66,11 +66,11 @@ export const ModelsList: React.FC<ModelsListProps> = memo(
               transition: { duration: 0.3 },
             }}
             className="flex flex-col items-center justify-center
-              bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#4998a4]
+              bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#0d0b1c]
               border border-transparent rounded-2xl shadow-md
               transition-transform duration-300 ease-in-out
-              hover:ring-4 hover:ring-[#8b5cf6]/30
-              hover:shadow-[0_0_30px_#8b5cf6] dark:hover:shadow-[0_0_30px_#8b5cf6]
+              hover:ring-4 hover:ring-[#64b5e4]/30
+              hover:shadow-[0_0_30px_#64b5e4] dark:hover:shadow-[0_0_30px_#64b5e4]
               p-12 cursor-pointer aspect-[4/3] w-full h-full min-h-[240px]"
             onClick={() => onSelect(model)}
             aria-label={`Select model ${model.name}`}
