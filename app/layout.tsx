@@ -198,7 +198,7 @@ const MobileSearchButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       onClick={onClick}
-      className="md:hidden fixed bottom-8 right-6 translate-x-1/4 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-xl z-50 text-3xl"
+      className="md:hidden fixed bottom-8 right-6 translate-x-1/4 hover:bg-transparent text-white rounded-full p-4 shadow-xl z-50 text-3xl"
     >
       🔍
     </button>

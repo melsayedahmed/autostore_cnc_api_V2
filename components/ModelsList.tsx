@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useMemo, useCallback } from "react";
+import React, { memo, useMemo, useCallback, useState } from "react";
 import Image from "next/image";
 import { useModels } from "../hooks/useModels";
 import type { Model } from "../lib/types";
@@ -32,6 +32,7 @@ const fadeSlideUp = {
 export const ModelsList: React.FC<ModelsListProps> = memo(
   ({ typeId, onSelect, renderItem }) => {
     const { data: models, isLoading, isError } = useModels(typeId);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleImageError = useCallback(
       (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -39,6 +40,16 @@ export const ModelsList: React.FC<ModelsListProps> = memo(
       },
       []
     );
+
+    // ✅ فلترة الموديلات
+    const filteredModels = useMemo(() => {
+      if (!models) return [];
+      if (!searchTerm) return models;
+      const lowerSearch = searchTerm.toLowerCase();
+      return models.filter((item) =>
+        item.name.toLowerCase().includes(lowerSearch)
+      );
+    }, [models, searchTerm]);
 
     const renderCard = useCallback(
       (model: Model, index: number) => {
@@ -55,11 +66,11 @@ export const ModelsList: React.FC<ModelsListProps> = memo(
               transition: { duration: 0.3 },
             }}
             className="flex flex-col items-center justify-center
-              bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#4998a4]
+          bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#4998a4] 
               border border-transparent rounded-2xl shadow-md
               transition-transform duration-300 ease-in-out
-              hover:ring-4 hover:ring-[#8b5cf6]/30
-              hover:shadow-[0_0_30px_#8b5cf6] dark:hover:shadow-[0_0_30px_#8b5cf6]
+              hover:scale-105 hover:ring-4
+          hover:shadow-[0_0_30px_#8b5cf6] dark:hover:shadow-[0_0_30px_#8b5cf6] 
               p-12 cursor-pointer aspect-[4/3] w-full h-full min-h-[240px]"
             onClick={() => onSelect(model)}
             aria-label={`Select model ${model.name}`}
@@ -93,40 +104,51 @@ export const ModelsList: React.FC<ModelsListProps> = memo(
       [onSelect, renderItem, handleImageError]
     );
 
-    const content = useMemo(() => {
-      if (isLoading) {
-        return (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-48 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"
-              />
-            ))}
-          </div>
-        );
-      }
-
-      if (isError) {
-        return (
-          <div className="text-red-500 font-medium">Error loading models.</div>
-        );
-      }
-
-      if (!models || models.length === 0) {
-        return <div className="text-gray-500">No models found.</div>;
-      }
-
+    // ✅ Loading + Error + Empty
+    if (isLoading) {
       return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {models.map((model, index) => (
-            <div key={model.id}>{renderCard(model, index)}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-48 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"
+            />
           ))}
         </div>
       );
-    }, [isLoading, isError, models, renderCard]);
+    }
 
-    return content;
+    if (isError) {
+      return (
+        <div className="text-red-500 font-medium">Error loading models.</div>
+      );
+    }
+
+    // ✅ عرض مع السرش
+    return (
+      <>
+        {/* ✅ Search Input for Mobile */}
+        <div className="w-full p-4 md:hidden">
+          <input
+            type="text"
+            placeholder="Search models..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-2 mb-6 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-black dark:text-white"
+          />
+        </div>
+
+        {filteredModels.length === 0 ? (
+          <div className="text-center text-gray-500">No models found.</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+            {filteredModels.map((model, index) => (
+              <div key={model.id}>{renderCard(model, index)}</div>
+            ))}
+          </div>
+        )}
+      </>
+    );
   }
 );
 
