@@ -70,7 +70,7 @@ export default function HomePageClient() {
           viewport={{ once: false, amount: 0.2 }}
           className="text-3xl font-bold mb-8 text-black dark:text-white"
         >
-          Browse Vehicle Parts
+          Browse Vehicle Parts.
         </motion.h1>
 
         {/* TypesList */}
