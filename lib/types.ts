@@ -1,8 +1,3 @@
-export interface Type {
-  id: string;
-  name: string;
-  image?: string;
-}
 
 export interface PaginationLink {
   url: string | null;
@@ -59,4 +54,26 @@ export interface SearchResult {
   type: "type" | "model" | "submodel" | "modelYear" | "version" | "part";
   name: string;
   [key: string]: any;
+}
+
+export interface Type {
+  id: string | number;
+  name: string;
+  image?: string;
+  description?: string;
+  slug?: string;
+  // Add any other properties that your API returns
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  total?: number;
+  page?: number;
+  hasMore?: boolean;
+}
+
+export interface SearchParams {
+  query: string;
+  page?: number;
+  limit?: number;
 }
