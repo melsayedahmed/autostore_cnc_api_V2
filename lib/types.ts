@@ -56,6 +56,7 @@ export interface SearchResult {
   [key: string]: any;
 }
 
+// Types for the application
 export interface Type {
   id: string | number;
   name: string;
@@ -65,6 +66,14 @@ export interface Type {
   // Add any other properties that your API returns
 }
 
+export interface SearchResultItem {
+  type: string;
+  subtype: string;
+  submodel: string;
+  year: string;
+  image: string;
+  id: string;
+}
 export interface ApiResponse<T> {
   data: T;
   total?: number;

@@ -53,7 +53,7 @@ const TypeCard = memo(
           </div>
         ) : (
           <div className="w-20 h-20 flex items-center justify-center bg-gray-100 dark:bg-gray-800 mb-6 rounded">
-            <span className="text-gray-500 dark:text-white text-4xl">🚗</span>
+            <span className="text-gray-500 dark:text-white text-2xl">🚗</span>
           </div>
         )}
         <p

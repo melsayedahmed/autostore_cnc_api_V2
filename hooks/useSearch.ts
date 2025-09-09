@@ -1,12 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import type { Type } from "../lib/types";
+import type { Type, SearchResultItem } from "../lib/types";
 
 interface SearchResponse {
   data: Type[];
   total: number;
 }
 
+const transformSearchResult = (item: SearchResultItem): Type => {
+  return {
+    id: item.id,
+    name: `${item.type} ${item.subtype} ${item.submodel} (${item.year})`,
+    image: item.image,
+    description: `${item.type} ${item.subtype} ${item.submodel} - ${item.year}`,
+  };
+};
 const searchProducts = async (searchTerm: string): Promise<SearchResponse> => {
   if (!searchTerm.trim()) {
     return { data: [], total: 0 };
@@ -38,10 +46,13 @@ const searchProducts = async (searchTerm: string): Promise<SearchResponse> => {
 
   const result = await response.json();
 
-  // Adjust based on your API response structure
+  // Transform the nested array structure to flat array of Type objects
+  const flatResults: SearchResultItem[] = result.flat();
+  const transformedData = flatResults.map(transformSearchResult);
+
   return {
-    data: result.data || result,
-    total: result.total || result.length || 0,
+    data: transformedData,
+    total: transformedData.length,
   };
 };
 
