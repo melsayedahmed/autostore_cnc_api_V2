@@ -11,7 +11,7 @@ import { useSearch } from "../hooks/useSearch";
 const TypeCardSkeleton = memo(() => (
   <div
     className="flex flex-col items-center justify-center 
-      bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#4998a4] 
+      bg-white dark:text-white bg-gradient-to-b from-[#e5f1fc] to-[#f2f4ff] dark:bg-[radial-gradient(ellipse_at_center,_rgb(16,13,33)_0%,_#0b0a1a_100%)] 
       border border-transparent rounded-2xl shadow-md 
       p-12 aspect-[4/3] w-full min-h-[240px] animate-pulse"
   >
@@ -29,7 +29,7 @@ const TypeCard = memo(
     return (
       <button
         className="flex flex-col items-center justify-center 
-          bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#4998a4] 
+          bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#0d0b1c]
           border border-transparent rounded-2xl shadow-md 
           transition-all duration-300 ease-in-out 
           hover:scale-105 hover:ring-4 hover:ring-[#8b5cf6]/30 
