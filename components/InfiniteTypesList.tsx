@@ -30,10 +30,10 @@ const TypeCard = memo(
       <button
         className="flex flex-col items-center justify-center 
           bg-white dark:bg-gradient-to-b dark:from-[#4998a455] dark:to-[#0d0b1c]
-          border border-transparent rounded-2xl shadow-md 
+           border-transparent rounded-2xl shadow-md 
           transition-all duration-300 ease-in-out 
-          hover:scale-105 hover:ring-4 hover:ring-[#8b5cf6]/30 
-          hover:shadow-[0_0_30px_#8b5cf6] dark:hover:shadow-[0_0_30px_#8b5cf6] 
+          hover:scale-105 hover:ring-4 hover:ring-[#4998a455]/30 
+          hover:shadow-[#62b5e39e] dark:hover:shadow-[#62b5e39e] 
           p-12 cursor-pointer aspect-[4/3] w-full min-h-[240px] overflow-hidden"
         onClick={handleClick}
         aria-label={`Select type ${type.name}`}
@@ -292,7 +292,7 @@ const InfiniteTypesListComponent: React.FC<InfiniteTypesListProps> = ({
           onChange={setSearchTerm}
           onClear={clearSearch}
           isLoading={isSearching}
-          placeholder="Search products..."
+          placeholder="Search your car..."
         />
       </div>
 
